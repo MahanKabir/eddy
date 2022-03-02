@@ -180,7 +180,7 @@
                 type: 'POST',
                 success: function(result) {
                     console.log('success');
-                    {{--window.location.replace("http://{{ $_SERVER['HTTP_HOST'] }}/");--}}
+                    window.location.replace("http://{{ $_SERVER['HTTP_HOST'] }}/");
                 }
             });
 
