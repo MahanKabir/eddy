@@ -1,0 +1,19 @@
+{
+    "name": "mahan/eddy",
+    "authors": [
+        {
+            "name": "mahankabir",
+            "email": "mahan.kabir@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Mahan\\Eddy\\": "src/"
+        }
+    },
+    "require": {
+        "ext-pdo": "*",
+        "ext-json": "*",
+        "jenssegers/blade": "^1.4"
+    }
+}
