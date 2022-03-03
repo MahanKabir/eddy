@@ -31,7 +31,7 @@
                 <h3 class="text-end mb-4">آلبوم تصاویر</h3>
                 <div class="col-12" dir="ltr">
                     <div class="gallery">
-                        @foreach(json_decode($post['path']) as $path)
+                        @foreach(json_decode($post['value']) as $path)
                             <img class="rounded shadow-lg px-3" height="360" src="{{ $path }}" >
                         @endforeach
                     </div>

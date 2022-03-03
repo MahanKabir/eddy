@@ -86,7 +86,7 @@ class ImageService
         $conn = new Connection();
         $conn = $conn->connect();
 
-        $path = 'http://' . $this->server['HTTP_HOST'] . '/storage/images/' . $this->filename;
+        $path = '/storage/images/' . $this->filename;
 
         try {
             // set the PDO error mode to exception

@@ -11,8 +11,8 @@ class Connection
     public function connect(){
 
         $servername = "localhost";
-        $username = "root";
-        $password = "";
+        $username = "mahan";
+        $password = "155180";
         $database = "db_editor";
 
         try {
