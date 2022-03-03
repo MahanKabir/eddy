@@ -56,7 +56,7 @@
                                     </div>
                                 </div>
 
-                                <div style="cursor: pointer;" data-bs-dismiss="modal" onclick="addGallery()" class="text-center mx-4 shadow-sm p-4 mb-5 bg-white rounded">
+                                <div style="cursor: pointer;" data-bs-dismiss="modal" onclick="openAlbumDialog('for-slider')" class="text-center mx-4 shadow-sm p-4 mb-5 bg-white rounded">
                                     <i class="display-2 mdi mdi-image-multiple" style="color: #311B92"></i>
                                     <div>
                                         <span>گالری</span>
@@ -94,8 +94,8 @@
 
                                     <form id="formAddImage">
                                         <input type="file" name="image" id="selected-image-file" hidden >
-                                        <span class="btn btn-warning w-100 text-center" onclick="$('#selected-image-file').click()">Upload</span>
-                                        <span onclick="upload('formAddImage','/image/store')" class="btn btn-success w-100 btn-sm py-0">submit</span>
+                                        <span class="btn btn-warning w-100 text-center" onclick="$('#formAddImage #selected-image-file').click()">Upload</span>
+                                        <span onclick="upload('formAddImage','/image/store',null)" class="btn btn-success w-100 btn-sm py-0">submit</span>
                                     </form>
 
                                 </div>
@@ -106,6 +106,36 @@
             </div>
         </div>
 
+        <!-- Modal -->
+        <div class="modal fade" id="albumModalForSlider" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content modal-lg">
+                    <div class="modal-header"><span class="btn btn-light" onclick="window.pathes=[];$('.content img').css('border','none')">Deselect All</span>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-12 row mx-0">
+                            <div class="col-md-10 row mx-0 content">
+
+                            </div>
+                            <div class="col-md-2">
+                                <div class="">
+
+                                    <form id="formAddImageSlider">
+                                        <input type="file" name="image" id="selected-image-file" hidden onchange="$(this).next().text('Click on submit to add to the list')" >
+                                        <span class="btn btn-warning w-100 text-center" onclick="$('#formAddImageSlider #selected-image-file').click()">Upload</span>
+                                        <div class="small text-muted"></div>
+                                        <span onclick="upload('formAddImageSlider','/image/store','for-slider')" class="btn btn-success w-100 btn-sm py-0">submit</span>
+                                    </form>
+
+                                </div>
+                            </div>
+                            <div class="save-and-exit col-12 text-center"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
@@ -140,16 +170,23 @@
             var div = document.getElementById('page');
             var number = new Date().getTime();
             $(div).append(`<div class="d-flex"><input type="text" data-type="video" class="form-control my-2 myElm"><span onclick="removeElm(this.parentElement)" class="btn-close"></span></div>`);
+         }
 
-            {{--$(div).append(`<div class="d-flex"><div><form id="form-${number}" enctype="multipart/form-data"><input name="video" type="file" data-type="video" onchange="previewVideo(event, 'preview-video-'+${number})" class="form-control my-2 myElm"></form>` +--}}
-            {{--    `<div class="text-center" id="preview-video-${number}"></div><span onclick="upload('form-'+${number}, 'http://{{ $_SERVER['HTTP_HOST'] }}/video-upload')" class="btn btn-warning">Upload</span></div><span onclick="removeElm(this.parentElement)" class="btn-close"></span></div>`);--}}
-        }
-
-        function addGallery(){
+        // function addGallery(){
+        //     var div = document.getElementById('page');
+        //     var number = new Date().getTime();
+        //     $(div).append(`<div class="d-flex"><div><input type="text" name="album[]" data-type="album" class="form-control my-2 myElm">` +
+        //         `<div class="text-center"><img id="preview-image-${number}" class="d-none" src="" width="144" height="81"></div></div><span onclick="removeElm(this.parentElement)" class="btn-close"></span></div>`);
+        // }
+        function addGallery(pathes){
             var div = document.getElementById('page');
             var number = new Date().getTime();
-            $(div).append(`<div class="d-flex"><div><input type="text" name="album[]" data-type="album" class="form-control my-2 myElm">` +
-                `<div class="text-center"><img id="preview-image-${number}" class="d-none" src="" width="144" height="81"></div></div><span onclick="removeElm(this.parentElement)" class="btn-close"></span></div>`);
+            let el = ``;
+            $.map(pathes, item => {
+               el += `<img src="${item}" width="100" class="rouned p-2"/>`
+            });
+            $(div).append(`<div class="d-flex"><div><input type="hidden" data-type="album" value="${pathes}" style="width:500px" class="form-control my-2 myElm">
+                            </div>${el} <span onclick="removeElm(this.parentElement)" class="btn-close"></span></div>`);
         }
 
         function addList(){
@@ -183,37 +220,30 @@
                     window.location.replace("http://{{ $_SERVER['HTTP_HOST'] }}/");
                 }
             });
-
+            getElements();
             function getElements(){
                 let data = [];
                 $.map($('.myElm'), (item)=>{
 
                     let input_val = item.value;
-                    let path = [];
 
-                    if(item.files){
-                        $.map(item.files, (file,index) => {
-                            input_val = "";
-                            path[index] = 'http://{{ $_SERVER['HTTP_HOST'] }}/storage/' + item.dataset.type + 's/' + file.name;
-                        });
+                    if(item.dataset.type == 'album'){
+                        input_val = item.value.split(",");
                     }
                     if(item.dataset.type == 'list'){
                         input_val = item.value.split("\n");
                     }
                     let ob = {
                         'type':item.dataset.type,
-                        'value': input_val,
-                        'path': path
+                        'value': input_val
                     };
                     data.push(ob);
-
-                    console.log(ob)
                 });
                 return data;
             }
         }
 
-        function upload(id, path){
+        function upload(id, path,t){
             var formData = new FormData(document.getElementById(id));
             $.ajax({
                 url: path,
@@ -224,7 +254,7 @@
                 cache: false,
                 success: function (response) {
                     console.log('upload successfully');
-                    getImages();
+                    getImages(t);
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(textStatus, errorThrown);
@@ -236,21 +266,35 @@
             $(el).remove();
         }
 
-        function openAlbumDialog(){
+        function openAlbumDialog(t){
             $('#toolsModal').modal('hide');
-            getImages()
-            $('#albumModal').modal('show');
+            getImages(t);
+            t == 'for-slider' ? $('#albumModalForSlider').modal('show') : $('#albumModal').modal('show');
         }
 
-        function getImages(){
+        function getImages(t){
+            window.pathes = [];
             $.ajax({
                 url:'/images',
                 type: 'get',
                 success: function (response) {
-                    $('#albumModal .content').html('');
-                    $.map(response, item => {
-                        $('#albumModal .content').append(`<div class="col-md-3"><img src='${item.path}' onclick="addImage('${item.path}')" class="w-100"></din>`);
-                    })
+
+                    $('#albumModal .content,#albumModalForSlider .content').html('');
+                    if(t=='for-slider'){
+                        $.map(response, item => {
+                            $('#albumModalForSlider .content').append(`<div class="col-md-3">
+                                <img src='${item.path}' style="cursor: pointer" class="w-100"
+                                onclick="window.pathes.push('${item.path}');$(this).css('border', '3px solid #00e100')">
+                                </din>`);
+                        });
+                        $('#albumModalForSlider .save-and-exit').html(`<a class="btn btn-light px-5 mt-4" onclick="addGallery(pathes)" data-bs-dismiss="modal">Done</a>`)
+                    }else{
+                        $.map(response, item => {
+                            $('#albumModal .content').append(`<div class="col-md-3">
+                                <img src='${item.path}' style="cursor: pointer" onclick="addImage('${item.path}')" class="w-100">
+                                </din>`);
+                        })
+                    }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(textStatus, errorThrown);
@@ -259,4 +303,8 @@
         }
 
     </script>
+@endsection
+
+@section('css')
+
 @endsection
