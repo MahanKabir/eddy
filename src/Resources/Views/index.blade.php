@@ -220,7 +220,7 @@
                     window.location.replace("http://{{ $_SERVER['HTTP_HOST'] }}/");
                 }
             });
-            getElements();
+
             function getElements(){
                 let data = [];
                 $.map($('.myElm'), (item)=>{
@@ -303,8 +303,4 @@
         }
 
     </script>
-@endsection
-
-@section('css')
-
 @endsection
