@@ -9,7 +9,7 @@ use PDOException;
 class PostService
 {
 
-    public function create($row, $random){
+    public function create($row, $section){
 
         $conn = new Connection();
         $conn = $conn->connect();
@@ -20,7 +20,7 @@ class PostService
         try {
             // set the PDO error mode to exception
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "INSERT INTO eddy_posts (type, value, path, section, status) VALUES ('$row->type', '$value', '$path', '$random',1)";
+            $sql = "INSERT INTO eddy_posts (type, value, path, section, status) VALUES ('$row->type', '$value', '$path', '$section',1)";
             // use exec() because no results are returned
             $conn->exec($sql);
             echo "New record created successfully" . "<br>";
@@ -68,7 +68,7 @@ class PostService
         return $posts;
     }
 
-    public function update($row){
+    public function update($row, $section){
 
     }
 
@@ -89,5 +89,10 @@ class PostService
         }
 
         $conn = null;
+    }
+
+    function isJson($string) {
+        json_decode($string);
+        return json_last_error() === JSON_ERROR_NONE;
     }
 }

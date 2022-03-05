@@ -2,6 +2,7 @@
 
 namespace Mahan\Eddy\Database;
 
+use Mahan\Eddy\Config\Env;
 use PDO;
 use PDOException;
 
@@ -10,9 +11,18 @@ class Connection
 
     public function connect(){
 
+        (new Env(__DIR__ . '/.env'))->load();
+
+        echo getenv('APP_ENV');
+        // dev
+        echo getenv('DATABASE_DNS');die;
+        // mysql:host=localhost;dbname=test;
+
+
+
         $servername = "localhost";
-        $username = "root";
-        $password = "";
+        $username = "mahan";
+        $password = "155180";
         $database = "db_editor";
 
         try {

@@ -16,7 +16,7 @@
                 <h3 class="text-end mb-4">تصویر</h3>
                 <div class="text-end my-4">
                     <img class="rounded shadow-lg" src="{{ json_decode($post['value']) }}" width="200">
-                    <input type="hidden" data-type="image" class="myElm" value="{{ json_decode($post['value']) }}">
+                    <input type="hidden" data-type="image[]" class="myElm" value="{{ json_decode($post['value']) }}">
                     <span onclick="removeElm(this.parentElement)" class="m-4 btn-close"></span>
                 </div>
             @elseif($post['type'] == 'video')
@@ -30,7 +30,7 @@
                     <h3 class="text-end mb-4">آلبوم تصاویر</h3>
                     <div class="col-12" dir="ltr">
                         <div class="gallery">
-                            <input type="hidden" data-type="album" class="myElm" value="{{ json_decode($post['value']) }}">
+                            <input type="hidden" data-type="album" class="myElm" value="{{ join(',', json_decode($post['value'])) }}">
                             @foreach(json_decode($post['value']) as $value)
                                 <img class="rounded shadow-lg px-3" height="360" src="{{ $value }}" >
                             @endforeach
@@ -198,12 +198,12 @@
 
         function addTextarea(){
             var div = document.getElementById('page');
-            $(div).prepend(`<div class="d-flex"><textarea data-type="text" class="form-control my-2 myElm"></textarea><span onclick="removeElm(this.parentElement)" class="btn-close"></span></div>`);
+            $(div).append(`<div class="d-flex"><textarea data-type="text" class="form-control my-2 myElm"></textarea><span onclick="removeElm(this.parentElement)" class="btn-close"></span></div>`);
         }
 
         function addTitle(){
             var div = document.getElementById('page');
-            $(div).prepend(`<div class="d-flex"><input type="text" data-type="title" class="form-control my-2 myElm"><span onclick="removeElm(this.parentElement)" class="btn-close"></span></div>`);
+            $(div).append(`<div class="d-flex"><input type="text" data-type="title" class="form-control my-2 myElm"><span onclick="removeElm(this.parentElement)" class="btn-close"></span></div>`);
         }
 
         function addImage(path){
@@ -218,7 +218,7 @@
             var div = document.getElementById('page');
             var number = new Date().getTime();
 
-            $(div).prepend(`<div class="d-flex"><input type="text" data-type="video" class="form-control my-2 myElm"><span onclick="removeElm(this.parentElement)" class="btn-close"></span></div>`);
+            $(div).append(`<div class="d-flex"><input type="text" data-type="video" class="form-control my-2 myElm"><span onclick="removeElm(this.parentElement)" class="btn-close"></span></div>`);
             {{--$(div).append(`<div class="d-flex"><div><form id="form-${number}" enctype="multipart/form-data"><input name="video" type="file" data-type="video" onchange="previewVideo(event, 'preview-video-'+${number})" class="form-control my-2 myElm"></form>` +--}}
             {{--    `<div class="text-center" id="preview-video-${number}"></div><span onclick="upload('form-'+${number}, 'http://{{ $_SERVER['HTTP_HOST'] }}/video-upload')" class="btn btn-warning">Upload</span></div><span onclick="removeElm(this.parentElement)" class="btn-close"></span></div>`);--}}
         }
@@ -236,7 +236,7 @@
 
         function addList(){
             var div = document.getElementById('page');
-            $(div).prepend(`<div class="d-flex"><textarea data-type="list" class="form-control my-2 myElm"></textarea><span onclick="removeElm(this.parentElement)" class="btn-close"></span></div>`);
+            $(div).append(`<div class="d-flex"><textarea data-type="list" class="form-control my-2 myElm"></textarea><span onclick="removeElm(this.parentElement)" class="btn-close"></span></div>`);
         }
 
         function previewImage(event, id){

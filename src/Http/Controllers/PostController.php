@@ -30,12 +30,12 @@ class PostController
         }
         $conn = null;
 
-        $blade = new Blade('../vendor/mahan/eddy/src/Resources/Views', '../Storage/cache/views/');
+        $blade = new Blade('../vendor/mahan/eddy/src/Resources/Views', '../public/storage/cache/views/');
         return $blade->make('post.index', compact('posts'))->render();
     }
 
     public function create(){
-        $blade = new Blade('../vendor/mahan/eddy/src/Resources/Views', '../Storage/cache/views/');
+        $blade = new Blade('../vendor/mahan/eddy/src/Resources/Views', '../public/storage/cache/views/');
         return $blade->make('index')->render();
     }
 
@@ -64,7 +64,7 @@ class PostController
         $service = new PostService();
         $posts = $service->where($section);
 
-        $blade = new Blade('../vendor/mahan/eddy/src/Resources/Views', '../Storage/cache/views/');
+        $blade = new Blade('../vendor/mahan/eddy/src/Resources/Views', '../public/storage/cache/views/');
         return $blade->make('post.edit', compact('posts', 'section'))->render();
     }
 
@@ -95,7 +95,7 @@ class PostController
         }
         $conn = null;
 
-        $blade = new Blade('../vendor/mahan/eddy/src/Resources/Views', '../Storage/cache/views/');
+        $blade = new Blade('../vendor/mahan/eddy/src/Resources/Views', '../public/storage/cache/views/');
         return $blade->make('post.show', compact('posts'))->render();
     }
 

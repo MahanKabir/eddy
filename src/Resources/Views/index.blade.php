@@ -211,16 +211,16 @@
 
         function store(){
 
-            $.ajax({
-                url: 'http://{{ $_SERVER['HTTP_HOST'] }}/store',
-                data: { data: JSON.stringify(getElements())},
-                type: 'POST',
-                success: function(result) {
-                    console.log('success');
-                    window.location.replace("http://{{ $_SERVER['HTTP_HOST'] }}/");
-                }
-            });
-
+            {{--$.ajax({--}}
+            {{--    url: 'http://{{ $_SERVER['HTTP_HOST'] }}/store',--}}
+            {{--    data: { data: JSON.stringify(getElements())},--}}
+            {{--    type: 'POST',--}}
+            {{--    success: function(result) {--}}
+            {{--        console.log('success');--}}
+            {{--        window.location.replace("http://{{ $_SERVER['HTTP_HOST'] }}/");--}}
+            {{--    }--}}
+            {{--});--}}
+getElements()
             function getElements(){
                 let data = [];
                 $.map($('.myElm'), (item)=>{
@@ -228,6 +228,7 @@
                     let input_val = item.value;
 
                     if(item.dataset.type == 'album'){
+                        console.log(item.value)
                         input_val = item.value.split(",");
                     }
                     if(item.dataset.type == 'list'){
