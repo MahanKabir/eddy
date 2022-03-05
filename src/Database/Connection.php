@@ -11,14 +11,14 @@ class Connection
 
     public function connect(){
 
-        (new Env(__DIR__ . '/.env'))->load();
-
-        echo getenv('APP_ENV');
-        // dev
-        echo getenv('DATABASE_DNS');die;
-        // mysql:host=localhost;dbname=test;
-
-
+//        (new Env(__DIR__ . '/.env'))->load();
+//
+//        echo getenv('APP_ENV');
+//        // dev
+//        echo getenv('DATABASE_DNS');die;
+//        // mysql:host=localhost;dbname=test;
+//
+//
 
         $servername = "localhost";
         $username = "mahan";
