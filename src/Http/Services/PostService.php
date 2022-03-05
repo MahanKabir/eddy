@@ -14,13 +14,12 @@ class PostService
         $conn = new Connection();
         $conn = $conn->connect();
 
-        $path = json_encode($row->path, JSON_UNESCAPED_UNICODE);
         $value = json_encode($row->value, JSON_UNESCAPED_UNICODE);
 
         try {
             // set the PDO error mode to exception
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "INSERT INTO eddy_posts (type, value, path, section, status) VALUES ('$row->type', '$value', '$path', '$section',1)";
+            $sql = "INSERT INTO eddy_posts (type, value, section, status) VALUES ('$row->type', '$value', '$section',1)";
             // use exec() because no results are returned
             $conn->exec($sql);
             echo "New record created successfully" . "<br>";
